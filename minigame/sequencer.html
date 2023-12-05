@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            The Sequencer
+        </title>
+        <style>
+            .div1:hover{
+                background-color:hotpink;
+            }
+            .div2:hover{
+                background-color:hotpink;
+            }
+            .div3:hover{
+                background-color:hotpink;
+            }
+            .div4:hover{
+                background-color:hotpink;
+            }
+            .butt{
+                transition-duration: 0.4s;
+                padding: 10px 10px;
+            }
+            .butt:hover{
+                background-color: hotpink;
+            }
+            .play{
+                transition-duration: 0.4s;
+                padding: 10px 10px;
+            }
+            .play:hover{
+                background-color: hotpink;
+            }
+            .pause{
+                transition-duration: 0.4s;
+                padding: 10px 10px;
+            }
+            .pause:hover{
+                background-color: hotpink;
+            }
+        </style>
+    </head>
+
+    <audio id="myaudio">
+        <source src="backmusic.m4a" type="audio/mp4">
+    </audio>
+
+    <body style="background-color:darksalmon;">
+       <div id="box1" class="div1" style="width:250px;height:250px;border:1px solid #000; position:absolute; left:100px; top:20px;" onclick="onclick1()"></div>
+       <div id="box2" class="div2" style ="width:250px;height:250px;border:1px solid #000; position:absolute; left:400px; top:20px;" onclick="onclick2()"></div>
+       <div id="box3" class="div3" style ="width:250px;height:250px;border:1px solid #000; position:absolute; left:400px; top:320px;" onclick="onclick3()"></div>
+       <div id="box4" class="div4" style ="width:250px;height:250px;border:1px solid #000; position:absolute; left:100px; top:320px;" onclick="onclick4()"></div>
+
+       <button id="butt" class="button butt" onclick="setter(); playgame()">Play!</button>
+      
+
+       <button id="play" class="button play" style="position: absolute; left: 700px; top: 20px" onclick="playAudio()">Play Music</button>
+       <button id="pause" class="button pause" style="position: absolute; left: 700px; top: 55px" onclick="pauseAudio()">Pause Music</button>
+
+    </body>
+
+    <script>
+
+        const audio = document.getElementById("myaudio");
+        audio.volume = 0.5;
+        function playAudio(){
+            audio.play();
+        }
+        function pauseAudio(){
+            audio.pause();
+        }
+
+        var check = [];
+        function onclick1(){
+            check.push("box1");
+            if(check.length == sequence-1){
+                pointer(check, Memory);
+            }
+        }
+        function onclick2(){
+            check.push("box2");
+            if(check.length == sequence-1){
+                pointer(check, Memory);
+            }
+        }
+        function onclick3(){
+            check.push("box3");
+            if(check.length == sequence-1){
+                pointer(check, Memory);
+            }
+        }
+        function onclick4(){
+            check.push("box4");
+            if(check.length == sequence-1){
+                pointer(check, Memory);
+        }
+        }
+        
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        var Memory = [];
+        var sequence = 1;
+
+        function setter(){
+            sequence += 2;
+        }
+        async function playgame(){
+            var Array = ["box1", "box2", "box3", "box4"];
+            for (let i = 1; i < sequence; i++){
+                var randitem = Array[Math.floor(Math.random()*Array.length)];
+                Memory.push(randitem);
+                await sleep(500);
+                var element = document.getElementById(randitem);
+                element.style.backgroundColor = "#3B38E0";
+                await sleep(500);
+                element.style.backgroundColor = "#E9967A";
+                element.style.backgroundColor=null;
+                
+            }
+
+
+        }
+        var counter = 0;
+        var score = 0;
+        HighScores = [];
+        function pointer(check, Memory){
+            for (let i = 0; i < Memory.length; i++){
+                if (check[i] === Memory[i]){
+                    counter += 1;
+                }else{
+                    counter + 0;
+                }
+            }
+            if(counter == Memory.length){
+                sleep(3000);
+                alert("Correct");
+                check.length = 0;
+                Memory.length = 0;
+                counter = 0;
+                let text = "Ready for the next round?";
+                if (confirm(text) == true){
+                    setter();
+                    playgame();
+                }else{
+                    alert("okay");
+                }
+            }else{
+                alert("You lost");
+            }
+        }
+
+</script>
+</html>
+
+
+<!-- file:///Users/zoegooden/Documents/fun/sequencer.html -->
